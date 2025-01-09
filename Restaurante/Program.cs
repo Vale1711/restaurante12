@@ -1,7 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using Restaurante.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var conString = builder.Configuration.GetConnectionString("conexion") ??
+     throw new InvalidOperationException("Connection string 'BloggingContext'" +
+    " not found.");
+builder.Services.AddDbContext<RestauranteContext>(options =>
+    options.UseSqlServer(conString));
+
 
 var app = builder.Build();
 
